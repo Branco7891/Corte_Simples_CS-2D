@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Corte Simples CS|2D v2.9.15</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color-scheme:dark;background:#0b1220;color:#e5edf7}*{box-sizing:border-box}body{margin:0;background:#0b1220;color:#e5edf7}.wrap{max-width:1280px;margin:auto;padding:22px}h1,h2,h3,h4{color:#f1f5f9}h1{margin:0 0 5px}h2{font-size:18px;margin:0 0 14px}.sub,.note,.muted,.print-hint{color:#9aaabd;margin:0 0 20px}.panel{background:#151f2e;border:1px solid #29384b;border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 3px 12px #0005}.fields{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:12px}label{display:block;font-size:13px;font-weight:600;margin-bottom:5px}input[type=number],input[type=text],select,.quickbox{width:100%;padding:9px;border:1px solid #3a4b61;border-radius:7px;font-size:14px;background:#0d1726;color:#e5edf7}input[type=checkbox]{accent-color:#60a5fa}select{max-width:100%}.checks{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px}.checks label{font-weight:400}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}button{border:0;border-radius:7px;padding:10px 14px;background:#2563eb;color:#fff;cursor:pointer;font-weight:600}button.secondary{background:#334155;color:#f1f5f9}button.danger{background:#5b2630;color:#ffe4e6}button:hover{filter:brightness(1.12)}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:650px}th,td{padding:8px;border-bottom:1px solid #334155;text-align:left;color:#dbe6f3}th{background:#202d3e;color:#f1f5f9;font-size:13px}td input[type=number]{min-width:85px}td input[type=text]{min-width:110px}.stats{display:flex;flex-wrap:wrap;gap:12px}.stat{background:#202d3e;color:#dbe6f3;border-radius:9px;padding:12px 16px;min-width:155px}.stat b{display:block;font-size:22px;margin-top:4px;color:#fff}.sheet{margin-top:20px;border-top:1px solid #334155;padding-top:15px}.sheet h3{margin:0 0 10px}.sheet svg{display:block;width:100%;height:auto;max-height:600px;border:1px solid #52647a;background:#f1f5f9}.quickbox{min-height:310px;font:14px/1.5 Consolas,monospace;resize:vertical}.quickbox::placeholder{color:#a9bed7;opacity:1}.sheet-stock-input{width:100%;padding:10px 12px;border:2px solid #d69e36;border-radius:7px;background:#493817;color:#fff1bd;font:600 15px/1.4 Consolas,monospace;margin:0 0 10px}.sheet-stock-input::placeholder{color:#f5d58a;opacity:1}.quickbox{border:2px solid #3b82f6;background:linear-gradient(180deg,#142b43,#0d1726)}.note{font-size:13px;line-height:1.5}.error{color:#fca5a5;font-weight:600}.warn{color:#fcd34d;font-weight:600}.ok{color:#86efac}.muted{color:#9aaabd}.messages{padding:12px 15px;border-radius:8px;margin:12px 0;background:#493817;border:1px solid #8b6b2b;color:#ffedbd}.messages ul{margin:7px 0 0;padding-left:22px}.messages li{margin:4px 0}.messages.errorbox{background:#4a2028;border-color:#8f3b48;color:#ffe1e5}.messages.okbox{background:#173d31;border-color:#286b52;color:#d1fae5}.legend{font-size:12px;color:#aab8ca;margin-top:8px}
+.sheet-layout{display:flex;gap:16px;align-items:flex-start}.sheet-diagram{flex:1;min-width:0}.sheet-parts{width:310px;max-width:38%;font-size:13px}.sheet-parts h4{margin:0 0 7px}.sheet-parts table{min-width:0;font-size:12px;table-layout:auto}.sheet-parts th,.sheet-parts td{padding:5px 6px}.sheet-parts td:first-child{font-weight:700;white-space:nowrap}.sheet svg{max-height:600px}.print-hint{font-size:12px;margin-top:7px}
+/* O desenho mantém fundo claro para contraste; a interface usa tema escuro. */
+@media(max-width:720px){.fields{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:12px}.stat{flex:1;min-width:130px}.sheet-layout{display:block}.sheet-parts{width:100%;max-width:100%;margin-top:12px}}
+@media print{@page{size:A4 portrait;margin:8mm}:root{color-scheme:light;background:#fff;color:#000}html,body{background:#fff!important;color:#000!important}.no-print,.actions{display:none!important}.panel{box-shadow:none;border:0;padding:0;margin:0;background:#fff}body{background:#fff;color:#000}.wrap{max-width:none;padding:0}.sheet{display:block!important;margin:0;padding:0;border:0;break-after:page;page-break-after:always;break-inside:avoid;page-break-inside:avoid;background:#fff}.sheet:last-of-type{break-after:auto;page-break-after:auto}.sheet h3{font-size:15pt;color:#000;margin:0 0 4mm}.sheet-layout{display:flex!important;flex-direction:row;gap:5mm;align-items:flex-start;width:100%}.sheet-diagram{display:block!important;width:64%;flex:0 0 64%;min-width:0}.sheet-parts{display:block!important;width:36%;flex:0 0 36%;max-width:36%;font-size:10pt;color:#000}.sheet-parts h4{font-size:12pt;color:#000;margin:0 0 2mm}.sheet-parts table{width:100%;min-width:0;font-size:9.5pt;table-layout:auto;border-collapse:collapse}.sheet-parts th,.sheet-parts td{padding:1.6mm 1.2mm;border-bottom:0.25mm solid #888;color:#000;overflow-wrap:anywhere}.sheet-parts th{font-size:9.5pt;background:#e8edf2!important;color:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.sheet-parts td:first-child{font-weight:700;white-space:nowrap}.sheet svg{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;max-height:160mm;min-height:35mm;object-fit:contain;border:0.3mm solid #777;background:#f1f5f9!important;overflow:visible;print-color-adjust:exact;-webkit-print-color-adjust:exact}.stats,.messages,.note{break-inside:avoid}#results>h2,#results>.messages,#results>.stats,#results>.note,.wrap>.note{display:none!important}.print-hint{display:none}}
+
+/* Correção de impressão: reserva espaço explícito para o desenho e para a lista.
+   O SVG recebe uma altura física fixa; preserveAspectRatio mantém a proporção da chapa. */
+@media print {
+  #results .sheet { display:block !important; width:100% !important; }
+  #results .sheet-layout {
+    display:grid !important;
+    grid-template-columns:minmax(0, 1.15fr) minmax(0, .85fr) !important;
+    gap:5mm !important;
+    align-items:start !important;
+    width:100% !important;
+  }
+  #results .sheet-diagram {
+    display:block !important;
+    width:auto !important;
+    min-width:0 !important;
+    max-width:none !important;
+    flex:none !important;
+    visibility:visible !important;
+  }
+  #results .sheet-diagram svg {
+    display:block !important;
+    visibility:visible !important;
+    width:100% !important;
+    height:155mm !important;
+    min-height:0 !important;
+    max-height:none !important;
+    object-fit:contain !important;
+    overflow:visible !important;
+    background:#f1f5f9 !important;
+    print-color-adjust:exact !important;
+    -webkit-print-color-adjust:exact !important;
+  }
+  #results .sheet-parts {
+    display:block !important;
+    width:auto !important;
+    max-width:none !important;
+    min-width:0 !important;
+    flex:none !important;
+    visibility:visible !important;
+    color:#000 !important;
+  }
+  #results .sheet-parts table { width:100% !important; min-width:0 !important; }
+  #results .sheet-parts th,
+  #results .sheet-parts td { color:#000 !important; }
+}
+
+
+/* Impressão em retrato: lista de dimensões dividida em duas colunas lado a lado. */
+.sheet-parts .dimension-columns {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:2mm;
+  align-items:start;
+}
+.sheet-parts .dimension-column {
+  min-width:0;
+  border-collapse:collapse;
+  width:100%;
+  table-layout:fixed;
+}
+/* v2.9.15 — mais espaço para Medidas e afastamento da coluna Qtd. */
+.sheet-parts .dimension-column th:nth-child(1),
+.sheet-parts .dimension-column td:nth-child(1) { width:18%; }
+.sheet-parts .dimension-column th:nth-child(2),
+.sheet-parts .dimension-column td:nth-child(2) { width:55%; white-space:nowrap; }
+.sheet-parts .dimension-column th:nth-child(3),
+.sheet-parts .dimension-column td:nth-child(3) { width:27%; text-align:center; }
+.sheet-parts .dimension-column th,
+.sheet-parts .dimension-column td {
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+.sheet-parts .dimension-column .piece-row td {
+  vertical-align:top;
+}
+@media print {
+  @page { size:A4 portrait; margin:8mm; }
+  .sheet-parts .dimension-columns { grid-template-columns:repeat(2,minmax(0,1fr))!important; gap:1.5mm!important; }
+  .sheet-parts .dimension-column { font-size:7pt!important; }
+  .sheet-parts .dimension-column th,
+  .sheet-parts .dimension-column td { padding:.8mm .5mm!important; line-height:1.15!important; }
+  .sheet-parts .dimension-column th { font-size:7pt!important; }
+  .sheet-parts h4 { font-size:10pt!important; }
+}
+
+
+/* Impressão A4 retrato: desenho sozinho em cima; lista em duas colunas abaixo. */
+@media print {
+  #results .sheet-layout {
+    display:flex !important;
+    flex-direction:column !important;
+    gap:2mm !important;
+    width:100% !important;
+  }
+  #results .sheet-diagram {
+    display:block !important;
+    width:100% !important;
+    max-width:100% !important;
+    flex:0 0 auto !important;
+  }
+  #results .sheet-diagram svg {
+    width:100% !important;
+    height:160mm !important;
+    min-height:160mm !important;
+    max-height:160mm !important;
+    object-fit:contain !important;
+  }
+  #results .sheet-parts {
+    display:block !important;
+    width:100% !important;
+    max-width:100% !important;
+    flex:0 0 auto !important;
+    margin-top:1mm !important;
+  }
+  #results .sheet-parts .dimension-columns {
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:1.5mm !important;
+    width:100% !important;
+  }
+  #results .sheet-parts .dimension-column {
+    width:100% !important;
+    table-layout:fixed !important;
+    font-size:8pt !important;
+  }
+  #results .sheet-parts .dimension-column th,
+  #results .sheet-parts .dimension-column td {
+    padding:.35mm .4mm !important;
+    font-size:6.5pt !important;
+    line-height:1.05 !important;
+    overflow-wrap:anywhere !important;
+  }
+  #results .sheet-parts h4 { font-size:9pt !important; margin:0 0 1mm !important; }
+}
+
+
+
+.unplaced-report{break-before:page;page-break-before:always}.unplaced-report table{min-width:0;font-size:12px}.unplaced-report th,.unplaced-report td{border:1px solid #94a3b8;padding:7px}.print-sheet-header{display:none}
+@media print{
+ .wrap>h1,.wrap>.sub{display:none!important}
+ .print-sheet-header{
+  display:block!important;
+  color:#000!important;
+  border-bottom:0.4mm solid #555;
+  padding-bottom:2.5mm;
+  margin-bottom:3mm;
+  break-after:avoid;
+  page-break-after:avoid;
+ }
+ .print-sheet-header .print-brand{font-size:17pt;font-weight:700;line-height:1.15}
+ .print-sheet-header .print-version{font-size:9pt;font-weight:400;margin-left:2mm}
+ .print-sheet-header .print-project{font-size:13pt;font-weight:700;margin-top:1.5mm}
+ .print-sheet-header .print-info{font-size:9pt;margin-top:1.5mm;color:#222!important}
+ .sheet h3{margin-top:0!important}
+}
+
+
+/* v2.9.15 — impressão: desenho primeiro e informações depois, ambos 30 mm acima. */
+@media print {
+  #results .sheet-layout {
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:2mm !important;
+    width:100% !important;
+    margin-top:0 !important;
+  }
+  #results .sheet-diagram {
+    order:1 !important;
+    width:100% !important;
+    max-width:100% !important;
+    flex:none !important;
+    margin-top:0 !important;
+  }
+  #results .sheet-diagram svg {
+    display:block !important;
+    width:100% !important;
+    height:160mm !important;
+    min-height:160mm !important;
+    max-height:160mm !important;
+    object-fit:contain !important;
+  }
+  #results .sheet-parts {
+    order:2 !important;
+    width:100% !important;
+    max-width:100% !important;
+    flex:none !important;
+    margin-top:0 !important;
+  }
+  #results .sheet-parts h4 {
+    margin-top:0 !important;
+  }
+  #results .sheet-parts .dimension-columns {
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+}
+
+
+/* Ajustes exclusivos do navegador: evitar sobreposição no título e na lista.
+   As regras de impressão permanecem inalteradas. */
+@media screen {
+  #results .sheet-layout {
+    display:flex;
+    align-items:flex-start;
+    gap:18px;
+  }
+  #results .sheet-diagram {
+    flex:1 1 0;
+    min-width:0;
+  }
+  #results .sheet-parts {
+    flex:0 0 420px;
+    width:420px;
+    max-width:48%;
+    min-width:300px;
+    font-size:14px;
+  }
+  #results .sheet-parts h4 {
+    display:block;
+    font-size:16px !important;
+    line-height:1.4 !important;
+    font-weight:700;
+    white-space:normal;
+    overflow-wrap:break-word;
+    word-break:normal;
+    margin:0 0 12px !important;
+  }
+  #results .sheet-parts .dimension-columns {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    align-items:start;
+    gap:10px;
+    width:100%;
+  }
+  #results .sheet-parts .dimension-column {
+    width:100%;
+    min-width:0;
+    table-layout:fixed;
+    border-collapse:collapse;
+    font-size:13px;
+  }
+  #results .sheet-parts .dimension-column th,
+  #results .sheet-parts .dimension-column td {
+    padding:6px 5px;
+    line-height:1.35;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    word-break:normal;
+    vertical-align:middle;
+  }
+  #results .sheet-parts .dimension-column th:nth-child(1),
+  #results .sheet-parts .dimension-column td:nth-child(1) { width:18%; }
+  #results .sheet-parts .dimension-column th:nth-child(2),
+  #results .sheet-parts .dimension-column td:nth-child(2) { width:60%; }
+  #results .sheet-parts .dimension-column th:nth-child(3),
+  #results .sheet-parts .dimension-column td:nth-child(3) { width:22%; text-align:center; }
+}
+@media screen and (max-width:900px) {
+  #results .sheet-layout { display:block; }
+  #results .sheet-parts {
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    margin-top:16px;
+  }
+  #results .sheet-parts .dimension-columns {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media screen and (max-width:520px) {
+  #results .sheet-parts .dimension-columns {
+    grid-template-columns:1fr;
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Corte Simples CS|2D <small style="font-size:14px;color:#64748b">v2.9.15</small></h1>
+<p class="sub">Planos de corte de chapas retangulares • medidas em milímetros • funcionamento offline</p>
+<section class="panel no-print">
+ <div class="fields">
+  <div style="grid-column:span 2"><label for="projectName">Nome do projeto</label><input id="projectName" type="text" placeholder="Digite o nome do projeto"></div>
+ </div>
+ <div class="actions">
+  <button type="button" id="saveProject" class="secondary">Salvar projeto</button>
+  <button type="button" id="openProject" class="secondary">Abrir projeto</button>
+  <input type="file" id="projectFile" accept=".json,application/json" style="display:none">
+ </div>
+ <p id="projectStatus" class="note" aria-live="polite"></p>
+</section>
+<section class="panel no-print">
+<h2>1. Configuração da chapa</h2>
+<div class="fields">
+ <div><label for="sw">Largura (mm)</label><input id="sw" type="number" min="1" step="any" value="2750"></div>
+ <div><label for="sh">Altura (mm)</label><input id="sh" type="number" min="1" step="any" value="1850"></div>
+ <div><label for="sheetGrain">Veio da chapa</label><select id="sheetGrain"><option value="">Sem veio definido</option><option value="w">Largura (horizontal)</option><option value="h">Altura (vertical)</option></select></div>
+ <div><label for="kerf">Espessura do corte (mm)</label><input id="kerf" type="number" min="0" step="any" value="3"></div>
+ <div><label for="margin">Margem em cada borda (mm)</label><input id="margin" type="number" min="0" step="any" value="5"></div>
+ <div><label for="fontMin">Tamanho mínimo da fonte no desenho</label><select id="fontMin"><option value="40">40 — pequeno</option><option value="50" selected>50 — razoável</option><option value="54">54 — atual</option><option value="60">60 — confortável</option><option value="70">70 — grande</option></select></div>
+ <div><label for="partsFont">Tamanho da fonte em Peças deste plano</label><select id="partsFont">
+  <option value="8" selected>8 pt</option>
+  <option value="9">9 pt — grande</option>
+  <option value="10">10 pt — muito grande</option>
+  <option value="11">11 pt</option>
+  <option value="12">12 pt</option>
+ </select></div>
+</div>
+<div class="checks">
+ <label><input id="rotate" type="checkbox" checked> Permitir rotação de 90° nas peças sem veio obrigatório</label>
+ <label><input id="colorPieces" type="checkbox" checked> Colorir peças no desenho</label>
+</div>
+<p class="note">O veio da chapa pode ser definido pelo cadastro rápido usando V na dimensão correspondente. Exemplo: <b>*2750Vx1850</b> indica veio no sentido dos 2750 mm.</p>
+<div class="actions">
+ <button type="button" id="saveSheetSettings" class="secondary">Salvar configurações de chapa</button>
+ <button type="button" id="restoreSheetDefaults" class="secondary">Restaurar padrões</button>
+</div>
+<p id="sheetSettingsStatus" class="note" aria-live="polite"></p>
+</section>
+<section class="panel no-print">
+<h2>2. Cadastro rápido</h2>
+<p class="note">A primeira linha informa o estoque de chapas. Cada dimensão cadastrada representa uma chapa disponível. Nas linhas seguintes, cadastre as peças.</p>
+<label for="sheetStock">Chapas disponíveis — primeira linha</label>
+<input id="sheetStock" class="sheet-stock-input" type="text" placeholder="Ex.: 2 1850x2750v 1600xv1300 | Vazio: usa a configuração da chapa e adiciona chapas automaticamente.">
+<label for="quickPieces">Peças — uma por linha</label>
+<textarea id="quickPieces" class="quickbox" placeholder="Digite aqui as dimensões das peças...
+
+Exemplo completo:
+10 250x450 2f1 Lateral de Gaveta
+
+Campos opcionais: Quantidade, Veio (V), Fitamento e Descrição. Podem ser informados em qualquer ordem.
+
+Como preencher:
+- 10 = quantidade de peças. Padrão: 1.
+- 250x450 = dimensões da peça (obrigatório).
+- 2f1 = fitamento em 2 bordas da primeira medida (250) e 1 borda da segunda (450).
+- Fitamento aceito: 1f2, 2f1 ou 2f2. O primeiro número indica as bordas da primeira medida; o segundo, da segunda.
+- Lateral de Gaveta = descrição da peça.
+- V = indica o sentido do veio. Sem V, a peça pode girar se a rotação estiver ativada.
+- Dimensões aceitam x, X ou ×."></textarea>
+<div class="actions no-print">
+ <button id="optimize">Otimizar plano de corte</button>
+ <button type="button" id="print" class="secondary">Imprimir plano</button>
+ <button type="button" id="clearQuick" class="danger">Limpar cadastro</button>
+</div>
+<p id="quickStatus" class="note" aria-live="polite"></p>
+<table style="display:none" aria-hidden="true"><tbody id="pieces"></tbody></table>
+</section>
+<section class="panel" id="results"><h2>3. Resultado da otimização</h2><p class="muted">Cadastre as peças e clique em “Otimizar plano de corte”.</p></section>
+<p class="note">Método: encaixe heurístico Guillotine com múltiplas ordens de peças. O estoque é limitado às chapas informadas na primeira linha; não são criadas chapas extras. A espessura da serra é reservada nos espaços de corte. Confira o plano e a sequência de cortes antes de executar na máquina.</p>
+</div>
+<script>
+(function(){'use strict';
+var body=document.getElementById('pieces'),result=document.getElementById('results');
+function el(id){return document.getElementById(id)}
+function resetOptimization(){
+ result.innerHTML='<h2>3. Resultado da otimização</h2><p class="muted">As configurações da chapa foram alteradas. Clique em “Otimizar plano de corte” para gerar um novo plano.</p>';
+}
+var configFields=['sw','sh','sheetGrain','kerf','margin','fontMin','partsFont','rotate','colorPieces'];
+for(var cf=0;cf<configFields.length;cf++){
+ (function(id){
+  var field=el(id);
+  field.addEventListener(field.type==='checkbox'||field.tagName==='SELECT'?'change':'input',resetOptimization);
+ })(configFields[cf]);
+}
+var SHEET_SETTINGS_KEY='cs2d_sheet_settings_v1';
+function readSheetSettings(){
+ var data={};
+ for(var i=0;i<configFields.length;i++){
+  var id=configFields[i],field=el(id);
+  data[id]=field.type==='checkbox'?field.checked:field.value;
+ }
+ return data;
+}
+function applySheetSettings(data){
+ if(!data||typeof data!=='object')return false;
+ for(var i=0;i<configFields.length;i++){
+  var id=configFields[i],field=el(id);
+  if(!Object.prototype.hasOwnProperty.call(data,id))continue;
+  if(field.type==='checkbox')field.checked=!!data[id];
+  else if(data[id]!==null&&data[id]!==undefined)field.value=String(data[id]);
+ }
+ resetOptimization();
+ return true;
+}
+el('saveSheetSettings').onclick=function(){
+ var status=el('sheetSettingsStatus');
+ try{
+  localStorage.setItem(SHEET_SETTINGS_KEY,JSON.stringify(readSheetSettings()));
+  status.className='note ok';
+  status.textContent='Configurações da chapa salvas neste dispositivo. Elas serão carregadas automaticamente na próxima abertura.';
+ }catch(e){
+  status.className='note error';
+  status.textContent='Não foi possível salvar as configurações neste dispositivo: '+e.message;
+ }
+};
+el('restoreSheetDefaults').onclick=function(){
+ if(!window.confirm('Restaurar as configurações originais da chapa? As configurações salvas anteriormente serão substituídas.'))return;
+ var defaults={
+  sw:'2750',sh:'1850',sheetGrain:'',kerf:'3',margin:'5',
+  fontMin:'50',partsFont:'8',rotate:true,colorPieces:true
+ };
+ applySheetSettings(defaults);
+ var status=el('sheetSettingsStatus');
+ try{
+  localStorage.setItem(SHEET_SETTINGS_KEY,JSON.stringify(readSheetSettings()));
+  status.className='note ok';
+  status.textContent='Configurações padrão restauradas e salvas neste dispositivo.';
+ }catch(e){
+  status.className='note error';
+  status.textContent='Padrões restaurados nesta sessão, mas não foi possível salvá-los: '+e.message;
+ }
+};
+try{
+ var savedSheetSettings=localStorage.getItem(SHEET_SETTINGS_KEY);
+ if(savedSheetSettings){
+  applySheetSettings(JSON.parse(savedSheetSettings));
+  el('sheetSettingsStatus').className='note ok';
+  el('sheetSettingsStatus').textContent='Configurações salvas anteriormente carregadas.';
+ }
+}catch(e){
+ el('sheetSettingsStatus').className='note error';
+ el('sheetSettingsStatus').textContent='Não foi possível carregar as configurações salvas.';
+}
+var sheetInventory=[];
+var autoAddSheets=false;
+function valid(n){return Number.isFinite(n)}
+function num(v){return Number(v)}
+function fmt(n){return n.toLocaleString('pt-BR',{maximumFractionDigits:2})}
+ function fmtMeasure(n){return n.toLocaleString('pt-BR',{useGrouping:false,maximumFractionDigits:2})}
+function addRow(name,w,h,q,grainAxis,tapeW,tapeH){var tr=document.createElement('tr');tr.innerHTML='<td><input class="name" type="text" aria-label="Nome da peça"></td><td><input class="w" type="number" min="0.01" step="any" aria-label="Largura"></td><td><input class="h" type="number" min="0.01" step="any" aria-label="Altura"></td><td><input class="q" type="number" min="1" step="1" aria-label="Quantidade"></td><td><select class="grainAxis" aria-label="Sentido do veio"><option value="">Livre</option><option value="w">Largura</option><option value="h">Altura</option></select></td><td><input class="tapeW" type="hidden"><input class="tapeH" type="hidden"><button type="button" class="danger remove">Excluir</button></td>';body.appendChild(tr);tr.querySelector('.name').value=name||'';tr.querySelector('.w').value=w||'';tr.querySelector('.h').value=h||'';tr.querySelector('.q').value=q||1;tr.querySelector('.grainAxis').value=grainAxis==='w'||grainAxis==='h'?grainAxis:'';tr.querySelector('.tapeW').value=tapeW||0;tr.querySelector('.tapeH').value=tapeH||0;tr.querySelector('.remove').onclick=function(){tr.remove()}}
+function parseSheetLine(line,lineNo){var tokens=line.trim().split(/\s+/),arr=[],pendingQty=null;for(var i=0;i<tokens.length;i++){var t=tokens[i],m=t.match(/^([Vv])?(\d+(?:[.,]\d+)?)([Vv])?\s*[xX×]\s*([Vv])?(\d+(?:[.,]\d+)?)([Vv])?$/);if(!m){if(/^\d+$/.test(t)&&pendingQty===null){pendingQty=parseInt(t,10);if(pendingQty<1||pendingQty>10000)throw Error('Linha '+lineNo+': quantidade de chapas inválida.');continue;}throw Error('Linha '+lineNo+': formato de chapa inválido. Use, por exemplo, 2 1850x2750v ou 1850x2750v 2.');}var mw=!!(m[1]||m[3]),mh=!!(m[4]||m[6]);if(mw&&mh)throw Error('Linha '+lineNo+': indique o veio em apenas uma dimensão.');var w=Number(m[2].replace(',','.')),h=Number(m[5].replace(',','.'));if(!(w>0&&h>0&&valid(w)&&valid(h)))throw Error('Linha '+lineNo+': dimensões de chapa inválidas.');var qty=pendingQty||1;if(i+1<tokens.length&&/^\d+$/.test(tokens[i+1])){if(pendingQty!==null)throw Error('Linha '+lineNo+': informe a quantidade apenas uma vez.');qty=parseInt(tokens[++i],10);}for(var q=0;q<qty;q++)arr.push({sw:w,sh:h,sheetGrain:mw?'w':(mh?'h':'')});pendingQty=null;}if(pendingQty!==null)throw Error('Linha '+lineNo+': quantidade sem dimensão de chapa.');if(!arr.length)throw Error('Informe as dimensões das chapas.');return arr}
+function parsePieceLine(line,lineNo,number){
+ var tokens=line.trim().split(/\s+/),dim=null,fit=null,qty=null,desc=[];
+ for(var ti=0;ti<tokens.length;ti++){
+  var tok=tokens[ti];
+  if(/^[Vv]?\d+(?:[.,]\d+)?[Vv]?\s*[xX×]\s*[Vv]?\d+(?:[.,]\d+)?[Vv]?$/.test(tok)){
+   if(dim!==null)throw Error('Linha '+lineNo+': informe apenas uma dimensão de peça.');
+   dim=tok;continue;
+  }
+  if(/^[12][fF][12]$/.test(tok)){
+   if(fit!==null)throw Error('Linha '+lineNo+': informe o fitamento apenas uma vez.');
+   fit=tok;continue;
+  }
+  if(/^\d+$/.test(tok)){
+   if(qty!==null)throw Error('Linha '+lineNo+': informe a quantidade apenas uma vez.');
+   qty=parseInt(tok,10);continue;
+  }
+  if(/^\d+[fF]\d+$/.test(tok))throw Error('Linha '+lineNo+': o fitamento aceita somente 1 ou 2 em cada dimensão (ex.: 1f2).');
+  desc.push(tok);
+ }
+ if(dim===null)throw Error('Linha '+lineNo+': dimensão ausente. Exemplo: 2 250x450v 1f2 Lateral.');
+ var dm=dim.match(/^([Vv])?(\d+(?:[.,]\d+)?)([Vv])?\s*[xX×]\s*([Vv])?(\d+(?:[.,]\d+)?)([Vv])?$/);
+ if(!dm)throw Error('Linha '+lineNo+': dimensão inválida.');
+ if((dm[1]||dm[3])&&(dm[4]||dm[6]))throw Error('Linha '+lineNo+': use V em apenas uma dimensão.');
+ var q=qty||1,w=Number(dm[2].replace(',','.')),h=Number(dm[5].replace(',','.'));
+ if(!Number.isSafeInteger(q)||q<1||q>10000||!valid(w)||!valid(h)||w<=0||h<=0)throw Error('Linha '+lineNo+': quantidade ou dimensão inválida.');
+ var fw=fit?parseInt(fit.charAt(0),10):0,fh=fit?parseInt(fit.charAt(2),10):0;
+ return {name:desc.join(' ').trim().replace(/^[-–—]\s*/, '')||('Peça '+number),w:w,h:h,q:q,grainAxis:(dm[1]||dm[3])?'w':((dm[4]||dm[6])?'h':''),tapeW:fw,tapeH:fh}
+}
+function parseQuick(){var stock=el('sheetStock').value.trim(),lines=el('quickPieces').value.split(/\r?\n/),sheet=null,items=[],errors=[],pieceNo=0;autoAddSheets=!stock;if(!stock){var sw=el('sw').value.trim(),sh=el('sh').value.trim(),grain=el('sheetGrain').value;if(!sw||!sh)throw Error('Informe as dimensões da chapa na configuração ou no campo Chapas disponíveis.');stock=sw+(grain==='w'?'v':'')+'x'+(grain==='h'?'v':'')+sh}try{sheet=parseSheetLine(stock,1)}catch(e){errors.push(e.message)}for(var i=0;i<lines.length;i++){var line=lines[i].trim();if(!line||/^Como cadastrar:/i.test(line))break;try{pieceNo++;items.push(parsePieceLine(line,i+1,pieceNo))}catch(e){errors.push(e.message)}}if(errors.length)throw Error(errors.join(' '));if(!items.length)throw Error('Digite pelo menos uma peça após a linha das chapas.');return {sheet:sheet,items:items}}
+function loadQuick(){try{var data=parseQuick(),total=0;for(var i=0;i<data.items.length;i++)total+=data.items[i].q;if(total>10000)throw Error('O limite de 10.000 peças seria ultrapassado.');sheetInventory=data.sheet;body.innerHTML='';for(var j=0;j<data.items.length;j++)addRow(data.items[j].name,data.items[j].w,data.items[j].h,data.items[j].q,data.items[j].grainAxis,data.items[j].tapeW,data.items[j].tapeH);el('sw').value=sheetInventory[0].sw;el('sh').value=sheetInventory[0].sh;el('sheetGrain').value=sheetInventory[0].sheetGrain;el('quickStatus').className='note ok';el('quickStatus').textContent=sheetInventory.length+' chapa(s) cadastrada(s) e '+total+' peça(s) importadas.'+(autoAddSheets?' Serão adicionadas novas chapas automaticamente quando necessário.':' Estoque limitado às chapas informadas.')}catch(e){el('quickStatus').className='note error';el('quickStatus').textContent=e.message}}
+el('clearQuick').onclick=function(){el('sheetStock').value='';el('quickPieces').value='';body.innerHTML='';sheetInventory=[];autoAddSheets=false;el('quickStatus').textContent='Cadastro limpo.';el('quickStatus').className='note';result.innerHTML='<h2>3. Resultado da otimização</h2><p class="muted">Cadastro limpo.</p>'};
+el('print').onclick=function(){
+ if(window.AndroidBridge&&typeof window.AndroidBridge.printPage==='function')window.AndroidBridge.printPage(el('projectName').value.trim());
+ else window.print();
+};
+function projectData(){
+ var rows=body.querySelectorAll('tr'),pieces=[];
+ for(var i=0;i<rows.length;i++){
+  var r=rows[i];
+  pieces.push({
+   name:r.querySelector('.name').value,
+   w:r.querySelector('.w').value,
+   h:r.querySelector('.h').value,
+   q:r.querySelector('.q').value,
+   grainAxis:r.querySelector('.grainAxis').value
+  });
+ }
+ return {
+  format:'otimizador-corte-2d',
+  version:1,
+  projectName:el('projectName').value,
+  settings:{
+   sw:el('sw').value,sh:el('sh').value,sheetGrain:el('sheetGrain').value,
+   kerf:el('kerf').value,margin:el('margin').value,
+   rotate:el('rotate').checked,colorPieces:el('colorPieces').checked,fontMin:el('fontMin').value,partsFont:el('partsFont').value
+  },
+  pieces:pieces,
+  quickList:el('sheetStock').value+'\n'+el('quickPieces').value
+ };
+}
+el('saveProject').onclick=function(){
+ try{
+  var data=projectData(),json=JSON.stringify(data,null,2);
+  var filename=(data.projectName||'projeto_corte').replace(/[\\/:*?"<>|]+/g,'_').replace(/\\s+/g,'_')+'.json';
+  if(window.AndroidBridge&&typeof window.AndroidBridge.saveProject==='function'){
+   window.AndroidBridge.saveProject(filename,json);
+   el('projectStatus').className='note ok';
+   el('projectStatus').textContent='Escolha onde salvar o arquivo do projeto.';
+   return;
+  }
+  var blob=new Blob([json],{type:'application/json;charset=utf-8'});
+  var url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=filename;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url)},1000);
+  el('projectStatus').className='note ok';
+  el('projectStatus').textContent='Projeto salvo em arquivo JSON.';
+ }catch(e){
+  el('projectStatus').className='note error';
+  el('projectStatus').textContent='Não foi possível salvar o projeto: '+e.message;
+ }
+};
+el('openProject').onclick=function(){el('projectFile').click()};
+el('projectFile').onchange=function(){
+ var file=this.files&&this.files[0];if(!file)return;
+ var reader=new FileReader();
+ reader.onload=function(){
+  try{
+   var data=JSON.parse(reader.result);
+   if(!data||data.format!=='otimizador-corte-2d'||!data.settings||!Array.isArray(data.pieces))throw Error('Arquivo de projeto inválido.');
+   var st=data.settings;
+   el('projectName').value=data.projectName||'';
+   el('sw').value=st.sw||'';el('sh').value=st.sh||'';
+   el('sheetGrain').value=st.sheetGrain||'';
+   el('kerf').value=st.kerf==null?'':st.kerf;
+   el('margin').value=st.margin==null?'':st.margin;
+   el('rotate').checked=st.rotate!==false;
+   el('colorPieces').checked=st.colorPieces!==false;
+   el('fontMin').value=st.fontMin||'40';
+   el('partsFont').value=st.partsFont||'8';
+   body.innerHTML='';
+   for(var i=0;i<data.pieces.length;i++){
+    var p=data.pieces[i]||{};
+    addRow(p.name||'',p.w||'',p.h||'',p.q||1,p.grainAxis||'',p.tapeW||0,p.tapeH||0);
+   }
+   var ql=(data.quickList||'').split(/\r?\n/);el('sheetStock').value=ql.shift()||'';el('quickPieces').value=ql.join('\n');
+   result.innerHTML='<h2>3. Resultado da otimização</h2><p class="muted">Projeto aberto. Clique em “Otimizar plano de corte” para gerar novamente os planos.</p>';
+   el('projectStatus').className='note ok';
+   el('projectStatus').textContent='Projeto "'+(data.projectName||file.name)+'" aberto com sucesso.';
+  }catch(e){
+   el('projectStatus').className='note error';
+   el('projectStatus').textContent='Erro ao abrir projeto: '+e.message;
+  }
+  el('projectFile').value='';
+ };
+ reader.onerror=function(){
+  el('projectStatus').className='note error';
+  el('projectStatus').textContent='Não foi possível ler o arquivo selecionado.';
+  el('projectFile').value='';
+ };
+ reader.readAsText(file);
+};
+function read(){var sw=num(el('sw').value),sh=num(el('sh').value),kerf=num(el('kerf').value),margin=num(el('margin').value),sheetGrain=el('sheetGrain').value;if(!valid(sw)||!valid(sh)||sw<=0||sh<=0||!valid(kerf)||kerf<0||!valid(margin)||margin<0||sw<=2*margin||sh<=2*margin)throw Error('Verifique as dimensões da chapa, a margem e a espessura da serra.');var list=[],rows=body.querySelectorAll('tr');if(!rows.length)throw Error('Adicione pelo menos uma peça.');for(var i=0;i<rows.length;i++){var row=rows[i],name=row.querySelector('.name').value.trim()||('Peça '+(i+1)),w=num(row.querySelector('.w').value),h=num(row.querySelector('.h').value),q=num(row.querySelector('.q').value),grainAxis=row.querySelector('.grainAxis').value;if(!valid(w)||!valid(h)||w<=0||h<=0||!Number.isSafeInteger(q)||q<1)throw Error('Verifique largura, altura e quantidade da linha '+(i+1)+'.');if(q>10000||list.length+q>10000)throw Error('Limite de 10.000 peças nesta versão.');for(var j=0;j<q;j++)list.push({name:name,w:w,h:h,grainAxis:grainAxis,tapeW:Number(row.querySelector('.tapeW').value)||0,tapeH:Number(row.querySelector('.tapeH').value)||0,id:i+'-'+j,index:i})}if(!sheetInventory.length)throw Error('Cadastre primeiro as chapas na primeira linha e clique em Substituir lista.');return {sw:sw,sh:sh,kerf:kerf,margin:margin,rotate:el('rotate').checked,sheetGrain:sheetGrain,list:list,inventory:sheetInventory.slice()}}
+function orientationAllowed(p,rotated,c){if(!p.grainAxis)return !rotated||c.rotate;if(!c.sheetGrain)return !rotated;var mapped=rotated?(p.grainAxis==='w'?'h':'w'):p.grainAxis;return mapped===c.sheetGrain}
+function freeRectsAfterPlacement(sheet,b,k,splitVertical){
+ var f=b.f,remainW=f.w-b.w,remainH=f.h-b.h;
+ var cutW=remainW>1e-7?Math.min(k,remainW):0,cutH=remainH>1e-7?Math.min(k,remainH):0,free=[];
+ if(splitVertical){
+  free.push({x:f.x+b.w+cutW,y:f.y,w:remainW-cutW,h:f.h});
+  free.push({x:f.x,y:f.y+b.h+cutH,w:b.w,h:remainH-cutH});
+ }else{
+  free.push({x:f.x,y:f.y+b.h+cutH,w:f.w,h:remainH-cutH});
+  free.push({x:f.x+b.w+cutW,y:f.y,w:remainW-cutW,h:b.h});
+ }
+ return free.filter(function(r){return r.w>1e-7&&r.h>1e-7});
+}
+function tryPlace(sheet,p,c,rotationBias){
+ var best=null;
+ for(var i=0;i<sheet.free.length;i++){
+  var f=sheet.free[i];
+  for(var r=0;r<2;r++){
+   var rotated=!!r;
+   if(!orientationAllowed(p,rotated,c))continue;
+   if(rotated&&p.w===p.h)continue;
+   var w=rotated?p.h:p.w,h=rotated?p.w:p.h;
+   if(w+c.kerf>f.w+1e-7||h+c.kerf>f.h+1e-7)continue;
+
+   /* Quantas peças desta orientação caberiam em cada eixo deste espaço.
+      O passo inclui a espessura da serra, conforme o cálculo dimensional. */
+   var pitchW=w+c.kerf,pitchH=h+c.kerf;
+   var countW=Math.floor((f.w+1e-7)/pitchW);
+   var countH=Math.floor((f.h+1e-7)/pitchH);
+   var gridCount=countW*countH;
+   var usedW=countW*pitchW,usedH=countH*pitchH;
+   var remainW=Math.max(0,f.w-usedW),remainH=Math.max(0,f.h-usedH);
+
+   /* Prioriza a quantidade potencial de peças por chapa/retângulo.
+      Em empate, escolhe o encaixe que chega mais perto dos limites nos dois eixos. */
+   var dimensionalWaste=(remainW/Math.max(1,f.w))+(remainH/Math.max(1,f.h));
+   var splitPenalty=0;
+   for(var sv=0;sv<2;sv++){
+    var splitVertical=!!sv;
+    var trial={i:i,f:f,w:w,h:h,rotated:rotated,splitVertical:splitVertical};
+    var residual=freeRectsAfterPlacement(sheet,trial,c.kerf);
+    var concentration=0,smallCount=0,largestResidual=0;
+    var sourceArea=Math.max(1,f.w*f.h);
+    for(var q=0;q<residual.length;q++){
+     var a=residual[q].w*residual[q].h;
+     var normalizedArea=a/sourceArea;
+     concentration+=normalizedArea*normalizedArea;
+     if(a>largestResidual)largestResidual=a;
+     if(a<Math.max(1,w*h*0.08))smallCount++;
+    }
+    /* Mantém a prioridade do preenchimento dimensional. Em igualdade de
+       quantidade e encaixe, favorece deixar uma sobra retangular contínua. */
+    var fragmentation=residual.length;
+    var continuityPenalty=1-(largestResidual/sourceArea);
+    var orientationPenalty=(rotationBias===0&&rotated?1e12:rotationBias===1&&!rotated?1e12:0);
+    var score=orientationPenalty-gridCount*1e9+dimensionalWaste*1e6+
+              smallCount*1e4+fragmentation*100+
+              continuityPenalty*1000-concentration*1000+splitPenalty;
+    if(!best||score<best.score){trial.score=score;trial.gridCount=gridCount;trial.countW=countW;trial.countH=countH;best=trial}
+   }
+  }
+ }
+ return best;
+}
+function place(sheet,p,b,c){
+ var free=freeRectsAfterPlacement(sheet,b,c.kerf,b.splitVertical);
+ sheet.free.splice(b.i,1);
+ for(var z=0;z<free.length;z++)sheet.free.push(free[z]);
+ var placedGrain=p.grainAxis?(b.rotated?(p.grainAxis==='w'?'h':'w'):p.grainAxis):'';
+ sheet.placed.push({x:b.f.x,y:b.f.y,w:b.w,h:b.h,name:p.name,index:p.index,ref:'P'+(p.index+1),sourceW:p.w,sourceH:p.h,rotated:b.rotated,grainAxis:placedGrain,tapeW:b.rotated?(p.tapeH||0):(p.tapeW||0),tapeH:b.rotated?(p.tapeW||0):(p.tapeH||0)});
+}
+function pieceFitsSomeOrientation(p,c,usableW,usableH){var orientations=[];if(orientationAllowed(p,false,c))orientations.push({w:p.w,h:p.h});if(p.w!==p.h&&orientationAllowed(p,true,c))orientations.push({w:p.h,h:p.w});for(var i=0;i<orientations.length;i++)if(orientations[i].w+c.kerf<=usableW+1e-7&&orientations[i].h+c.kerf<=usableH+1e-7)return true;return false}
+function validatePieces(c){
+ var bad=[],badPieces=[],warnings=[],uw=c.sw-2*c.margin,uh=c.sh-2*c.margin;
+ for(var i=0;i<c.list.length;i++){
+  var p=c.list[i],orientations=[];
+  if(orientationAllowed(p,false,c))orientations.push({w:p.w,h:p.h});
+  if(p.w!==p.h&&orientationAllowed(p,true,c))orientations.push({w:p.h,h:p.w});
+  var exactFull=false;
+  for(var z=0;z<orientations.length;z++){
+   var ex=orientations[z];
+   if(Math.abs(ex.w-c.sw)<1e-7||Math.abs(ex.h-c.sh)<1e-7){
+    exactFull=true;
+    warnings.push('Peça "'+p.name+'": uma dimensão ('+fmt(ex.w)+' × '+fmt(ex.h)+' mm) coincide com a dimensão total da chapa. Não haverá margem nessa dimensão.');
+    break;
+   }
+  }
+  if(!pieceFitsSomeOrientation(p,c,uw,uh)){
+   var fullFit=pieceFitsSomeOrientation(p,{rotate:c.rotate,sheetGrain:c.sheetGrain},c.sw,c.sh);
+   if(fullFit&&c.margin>0)bad.push('Peça "'+p.name+'" ('+fmt(p.w)+' × '+fmt(p.h)+' mm): caberia na chapa sem margem, mas não cabe na área útil de '+fmt(uw)+' × '+fmt(uh)+' mm. Reduza a margem ou revise a peça.');
+   else bad.push('Peça "'+p.name+'" ('+fmt(p.w)+' × '+fmt(p.h)+' mm) é maior que a chapa ou incompatível com o sentido do veio ('+fmt(c.sw)+' × '+fmt(c.sh)+' mm).');
+   badPieces.push(p);continue;
+  }
+  if(!exactFull){
+   for(var j=0;j<orientations.length;j++){
+    var o=orientations[j];
+    if(Math.abs(o.w-uw)<1e-7||Math.abs(o.h-uh)<1e-7){warnings.push('Peça "'+p.name+'": ocupa toda a dimensão útil da chapa ('+fmt(uw)+' × '+fmt(uh)+' mm) em um dos sentidos; não haverá sobra nessa dimensão, além da margem externa configurada.');break;}
+   }
+  }
+ }
+ return {bad:bad,badPieces:badPieces,warnings:warnings};
+}
+function pack(c,sorter,rotationBias){
+ var source=c.list.slice().sort(sorter),groups=[];
+ for(var n=0;n<source.length;n++){
+  var p=source[n],key=[p.w,p.h,p.grainAxis||'',p.tapeW||0,p.tapeH||0].join('|'),g=null;
+  for(var gi=0;gi<groups.length;gi++)if(groups[gi].key===key){g=groups[gi];break}
+  if(!g){g={key:key,w:p.w,h:p.h,grainAxis:p.grainAxis||'',tapeW:p.tapeW||0,tapeH:p.tapeH||0,items:[]};groups.push(g)}
+  g.items.push(p);
+ }
+ groups.sort(function(a,b){return a.w*a.h-b.w*b.h||Math.max(a.w,a.h)-Math.max(b.w,b.h)||Math.min(a.w,a.h)-Math.min(b.w,b.h)});
+ var sheets=[],unplaced=[];
+ for(var z=0;z<c.inventory.length;z++){var inv=c.inventory[z];sheets.push({sw:inv.sw,sh:inv.sh,sheetGrain:inv.sheetGrain,free:[{x:c.margin,y:c.margin,w:inv.sw-2*c.margin,h:inv.sh-2*c.margin}],placed:[]})}
+ function addSheet(){if(!autoAddSheets||!c.inventory.length)return null;var base=c.inventory[0],fresh={sw:base.sw,sh:base.sh,sheetGrain:base.sheetGrain,free:[{x:c.margin,y:c.margin,w:base.sw-2*c.margin,h:base.sh-2*c.margin}],placed:[]};sheets.push(fresh);return fresh}
+ function placeBlock(sheet,group,fi,f,rotated,cols,rows,splitVertical){
+  var pw=rotated?group.h:group.w,ph=rotated?group.w:group.h;
+  var bw=cols*(pw+c.kerf),bh=rows*(ph+c.kerf);
+  /* bw/bh já reservam um kerf após cada peça da fileira/coluna.
+     A separação do bloco em relação à sobra é outro corte físico:
+     reserva também esse kerf na geometria do retângulo livre. */
+  var trial={i:fi,f:f,w:bw,h:bh,splitVertical:splitVertical};
+  var residual=freeRectsAfterPlacement(sheet,trial,c.kerf,splitVertical);
+  sheet.free.splice(fi,1);for(var ri=0;ri<residual.length;ri++)sheet.free.push(residual[ri]);
+  for(var row=0;row<rows;row++)for(var col=0;col<cols;col++){
+   if(!group.items.length)return;
+   var item=group.items.shift(),mapped=item.grainAxis?(rotated?(item.grainAxis==='w'?'h':'w'):item.grainAxis):'';
+   sheet.placed.push({x:f.x+col*(pw+c.kerf),y:f.y+row*(ph+c.kerf),w:pw,h:ph,name:item.name,index:item.index,ref:'P'+(item.index+1),sourceW:item.w,sourceH:item.h,rotated:rotated,grainAxis:mapped,tapeW:rotated?(item.tapeH||0):(item.tapeW||0),tapeH:rotated?(item.tapeW||0):(item.tapeH||0)});
+  }
+ }
+ for(var gix=0;gix<groups.length;gix++){
+  var group=groups[gix];
+  while(group.items.length){
+   var best=null,bestSheet=-1;
+   for(var si=0;si<sheets.length;si++){
+    var sh=sheets[si],sc={rotate:c.rotate,sheetGrain:sh.sheetGrain};
+    for(var fi=0;fi<sh.free.length;fi++){
+     var f=sh.free[fi];
+     for(var rr=0;rr<2;rr++){
+      var rotated=!!rr;if(!orientationAllowed(group,rotated,sc)||(rotated&&group.w===group.h))continue;
+      var pw=rotated?group.h:group.w,ph=rotated?group.w:group.h;
+      var maxCols=Math.floor((f.w+1e-7)/(pw+c.kerf)),maxRows=Math.floor((f.h+1e-7)/(ph+c.kerf));
+      if(maxCols<1||maxRows<1)continue;
+      /* Só aceita blocos completos: não cria a última fileira parcial em escada.
+         Se restarem poucas peças para completar outra fileira, elas aguardam
+         outro espaço ou outra chapa, preservando o retângulo livre. */
+      var cols=Math.min(maxCols,group.items.length),rows=Math.min(maxRows,Math.floor(group.items.length/cols));
+      if(rows<1){
+       cols=group.items.length;rows=1;
+       if(cols>maxCols)continue;
+      }
+      var capacity=cols*rows;
+      if(capacity<1)continue;
+      var bw=cols*(pw+c.kerf),bh=rows*(ph+c.kerf);
+      var remainder=group.items.length-capacity;
+      /* Testa os dois sentidos de corte do bloco. Cada sentido produz
+         dois retângulos guilhotinados diferentes. */
+      for(var sv=0;sv<2;sv++){
+       var splitVertical=!!sv;
+       var residual=freeRectsAfterPlacement(sh,{i:fi,f:f,w:bw,h:bh},c.kerf,splitVertical);
+       var largest=0,smallest=Infinity,capacityLeft=0,smallestFits=false;
+       for(var qi=0;qi<residual.length;qi++){
+        var rf=residual[qi],ra=rf.w*rf.h;
+        if(ra>largest)largest=ra;
+        if(ra<smallest)smallest=ra;
+        var rc=Math.floor((rf.w+1e-7)/(pw+c.kerf));
+        var rrw=Math.floor((rf.h+1e-7)/(ph+c.kerf));
+        var possible=rc*rrw;
+        capacityLeft+=possible;
+        if(possible>0&&ra<=largest)smallestFits=true;
+       }
+       /* Se ainda faltam peças, mede se o menor retângulo consegue receber
+          pelo menos uma delas; depois considera a capacidade do retângulo maior.
+          Isso evita escolher um corte que inutilize a sobra menor. */
+       var smallerFirstPenalty=0;
+       if(remainder>0){
+        var sortedResidual=residual.slice().sort(function(a,b){return a.w*a.h-b.w*b.h});
+        if(sortedResidual.length){
+         var sr=sortedResidual[0];
+         var scols=Math.floor((sr.w+1e-7)/(pw+c.kerf));
+         var srows=Math.floor((sr.h+1e-7)/(ph+c.kerf));
+         if(scols*srows===0)smallerFirstPenalty=1e9;
+         else smallerFirstPenalty=Math.max(0,remainder-scols*srows)*1e5;
+        }
+       }
+       var score=-capacity*1e12-(largest/Math.max(1,f.w*f.h))*1e8+
+        residual.length*1e5+smallerFirstPenalty+
+        (rotationBias===0&&rotated?1e10:0)+(rotationBias===1&&!rotated?1e10:0);
+       if(remainder>0&&remainder<cols)score+=remainder*1e7;
+       if(!best||score<best.score){
+        best={fi:fi,f:f,rotated:rotated,cols:cols,rows:rows,splitVertical:splitVertical,score:score};
+        bestSheet=si;
+       }
+      }
+     }
+    }
+   }
+   if(!best){
+    var fresh=addSheet();
+    if(fresh){
+     var ff=fresh.free[0],nb=null;
+     for(var nr=0;nr<2;nr++){
+      var rot=!!nr;if(!orientationAllowed(group,rot,{rotate:c.rotate,sheetGrain:fresh.sheetGrain})||(rot&&group.w===group.h))continue;
+      var wp=rot?group.h:group.w,hp=rot?group.w:group.h;
+      var mc=Math.floor((ff.w+1e-7)/(wp+c.kerf)),mr=Math.floor((ff.h+1e-7)/(hp+c.kerf));
+      if(mc<1||mr<1)continue;
+      var cc=Math.min(mc,group.items.length),rrr=Math.min(mr,Math.floor(group.items.length/cc));
+      if(rrr<1){cc=group.items.length;rrr=1;if(cc>mc)continue}
+      var sc2=-cc*rrr*1e12+(rotationBias===0&&rot?1e10:0)+(rotationBias===1&&!rot?1e10:0);
+      if(!nb||sc2<nb.score)nb={fi:0,f:ff,rotated:rot,cols:cc,rows:rrr,splitVertical:true,score:sc2};
+     }
+     if(nb){best=nb;bestSheet=sheets.length-1}
+    }
+   }
+   if(!best){unplaced=unplaced.concat(group.items);group.items=[];break}
+   placeBlock(sheets[bestSheet],group,best.fi,best.f,best.rotated,best.cols,best.rows,best.splitVertical);
+   /* As peças restantes voltam ao ciclo normal de busca.
+      O algoritmo tenta primeiro os retângulos livres de todas as chapas já abertas.
+      Uma nova chapa só é criada quando nenhum espaço existente comportar o bloco. */
+  }
+ }
+ sheets=sheets.filter(function(sh){return sh.placed.length>0});
+ return {sheets:sheets,unplaced:unplaced};
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(x){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]})}
+function render(c,packed,validation){
+ var partsFont=num(el('partsFont').value)||7;
+ var sheets=packed.sheets,area=0,used=0,html='<h2>3. Resultado da otimização</h2>';
+ /* Agrupa planos de corte idênticos; sheets.length continua sendo a quantidade física usada. */
+ var renderSheets=[],layoutMap={};
+ for(var ri=0;ri<sheets.length;ri++){
+  var rs=sheets[ri],partsSignature=[];
+  for(var rj=0;rj<rs.placed.length;rj++){
+   var rp=rs.placed[rj];
+   partsSignature.push([
+    Math.round(rp.x*1000)/1000,Math.round(rp.y*1000)/1000,
+    Math.round(rp.w*1000)/1000,Math.round(rp.h*1000)/1000,
+    Math.round(Number(rp.sourceW)*1000)/1000,Math.round(Number(rp.sourceH)*1000)/1000,
+    rp.grainAxis||'',rp.rotated?1:0,rp.tapeW||0,rp.tapeH||0
+   ].join(':'));
+  }
+  partsSignature.sort();
+  var signature=[rs.sw,rs.sh,rs.sheetGrain||'',partsSignature.join(';')].join('|');
+  if(layoutMap[signature]!==undefined)renderSheets[layoutMap[signature]].count++;
+  else{
+   layoutMap[signature]=renderSheets.length;
+   renderSheets.push({sheet:rs,count:1,firstPhysical:ri+1});
+  }
+ }
+ for(var i=0;i<sheets.length;i++)for(var j=0;j<sheets[i].placed.length;j++)used+=sheets[i].placed[j].w*sheets[i].placed[j].h;
+ var total=0,largestRemnant={w:0,h:0,area:0};
+ for(var ti=0;ti<sheets.length;ti++){
+  total+=sheets[ti].sw*sheets[ti].sh;area+=sheets[ti].sw*sheets[ti].sh;
+  for(var ri2=0;ri2<sheets[ti].free.length;ri2++){
+   var rem=sheets[ti].free[ri2],remArea=rem.w*rem.h;
+   if(remArea>largestRemnant.area)largestRemnant={w:rem.w,h:rem.h,area:remArea};
+  }
+ }
+ var percent=total?100*used/total:0;
+ if(validation.warnings.length){html+='<div class="messages"><b>⚠ Avisos de margem/orientação</b><ul>';for(var wi=0;wi<validation.warnings.length;wi++)html+='<li>'+escapeHtml(validation.warnings[wi])+'</li>';html+='</ul></div>'}
+ if(validation.bad.length){html+='<div class="messages errorbox"><b>Peças que não podem ser cortadas</b><ul>';for(var bi=0;bi<validation.bad.length;bi++)html+='<li>'+escapeHtml(validation.bad[bi])+'</li>';html+='</ul><p>As peças acima não foram colocadas no plano. Corrija as dimensões, a margem ou o sentido do veio.</p></div>'}
+ html+='<div class="stats"><div class="stat">Chapas utilizadas<b>'+sheets.length+'</b></div><div class="stat">Peças posicionadas<b>'+(c.list.length-packed.unplaced.length)+'</b></div><div class="stat">Peças não posicionadas<b>'+packed.unplaced.length+'</b></div><div class="stat">Aproveitamento bruto<b>'+fmt(percent)+'%</b></div><div class="stat">Maior sobra retangular<b>'+(largestRemnant.area?fmt(largestRemnant.w)+' s '+fmt(largestRemnant.h)+' mm':'—')+'</b><small>'+fmt(largestRemnant.area/1000000)+' m²</small></div><div class="stat">Área não ocupada<b>'+fmt((total-used)/1000000)+' m²</b></div></div>';
+ for(var s=0;s<renderSheets.length;s++){
+  var renderEntry=renderSheets[s],sh=renderEntry.sheet,sw=sh.sw,shh=sh.sh,sheetUsed=0,groups=[],groupOrder=[],descMap={},descNames=[];
+  /* Uma referência por par de dimensões: largura E altura precisam coincidir. */
+  for(var j=0;j<sh.placed.length;j++){
+   var pp=sh.placed[j];sheetUsed+=pp.w*pp.h;
+   var sourceW=Number(pp.sourceW),sourceH=Number(pp.sourceH),groupIndex=-1;
+   for(var k=0;k<groups.length;k++){
+    var sameOrientation=groups[k].w===sourceW && groups[k].h===sourceH;
+     var reverseOrientation=groups[k].w===sourceH && groups[k].h===sourceW;
+     var groupHasTape=!!(groups[k].tapeW||groups[k].tapeH),pieceHasTape=!!(pp.tapeW||pp.tapeH);
+     var sameGrain=(groups[k].grainAxis||'')===(pp.grainAxis||'');
+     var bothWithoutGrain=!(groups[k].grainAxis||'') && !(pp.grainAxis||'');
+     if((sameOrientation && sameGrain && groups[k].tapeW===(pp.tapeW||0) && groups[k].tapeH===(pp.tapeH||0)) ||
+        (reverseOrientation && bothWithoutGrain && !groupHasTape && !pieceHasTape)){
+     groupIndex=k;
+     break;
+    }
+   }
+   if(groupIndex===-1){
+    groupIndex=groups.length;
+    groups.push({ref:String(groupIndex+1),w:sourceW,h:sourceH,grainAxis:pp.grainAxis||'',tapeW:pp.tapeW||0,tapeH:pp.tapeH||0,count:0,descriptions:[]});
+    groupOrder.push(groupIndex);
+   }
+   groups[groupIndex].count++;
+   var desc=String(pp.name||'').replace(/^\s+|\s+$/g,'');
+   if(!desc)desc='(sem descrição)';
+   if(!descMap[desc]){descMap[desc]=true;descNames.push(desc)}
+   if(groups[groupIndex].descriptions.indexOf(desc)===-1)groups[groupIndex].descriptions.push(desc);
+   pp.dimRef=groups[groupIndex].ref;
+  }
+  var projectTitle=el('projectName').value.trim();
+  var grainLabel=sh.sheetGrain==='w'?'Horizontal':(sh.sheetGrain==='h'?'Vertical':'Não definido');
+  html+='<div class="sheet"><div class="print-sheet-header">'+
+   '<div class="print-brand">Corte Simples CS|2D <span class="print-version">v2.9.15</span></div>'+
+   (projectTitle?'<div class="print-project">Projeto: '+escapeHtml(projectTitle)+'</div>':'')+
+   '<div class="print-info">Chapa: '+fmt(sw)+' × '+fmt(shh)+' mm'+
+   ' &nbsp;|&nbsp; Área útil (com margem descontada): '+fmt(sw-2*c.margin)+' × '+fmt(shh-2*c.margin)+' mm'+
+   ' &nbsp;|&nbsp; Corte: '+fmt(c.kerf)+' mm'+
+   ' &nbsp;|&nbsp; Margem por borda: '+fmt(c.margin)+' mm'+
+   ' &nbsp;|&nbsp; Veio: '+grainLabel+
+   ' &nbsp;|&nbsp; Chapa '+renderEntry.firstPhysical+' de '+sheets.length+
+   (renderEntry.count>1?' / '+renderEntry.count+'x':'')+'</div>'+
+   '</div><h3>Chapa '+(s+1)+' — '+sh.placed.length+' peças — '+fmt(sheetUsed/(sw*shh)*100)+'% de aproveitamento</h3><div class="sheet-layout"><div class="sheet-diagram">';
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+(sw+360)+'" height="'+(shh+360)+'" viewBox="0 0 '+(sw+360)+' '+(shh+360)+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Plano de corte da chapa '+renderEntry.firstPhysical+' de '+sheets.length+'">'+
+   (renderEntry.count>1?(function(){var counterFont=num(el('fontMin').value)||40;var counterW=Math.max(70,counterFont*2.15),counterH=Math.max(42,counterFont*1.55);return '<g transform="translate(8 8)"><rect x="0" y="0" width="'+counterW+'" height="'+counterH+'" rx="8" fill="#111827" stroke="#ffffff" stroke-width="3"/><text x="'+(counterW/2)+'" y="'+(counterFont*1.15)+'" text-anchor="middle" font-size="'+counterFont+'" font-weight="700" fill="#ffffff">'+renderEntry.count+'x</text></g>'})():'')+
+   '<g transform="translate(180 180)"><rect x="0" y="0" width="'+sw+'" height="'+shh+'" fill="#e2e8f0"/>';
+  if(c.margin)svg+='<rect x="'+c.margin+'" y="'+c.margin+'" width="'+(sw-2*c.margin)+'" height="'+(shh-2*c.margin)+'" fill="#fff" stroke="#94a3b8" stroke-width="2"/>';
+  for(var j=0;j<sh.placed.length;j++){
+   var p=sh.placed[j],colors=['#bfdbfe','#bbf7d0','#fde68a','#fecaca','#ddd6fe','#fed7aa','#a5f3fc'],fill=el('colorPieces').checked?colors[p.index%colors.length]:'#ffffff';
+   svg+='<rect x="'+p.x+'" y="'+p.y+'" width="'+p.w+'" height="'+p.h+'" fill="'+fill+'" stroke="#334155" stroke-width="2"/>';
+   /* Fitamento: linhas internas paralelas às bordas selecionadas. */
+   var tapeInset=Math.max(18,Math.min(45,Math.min(p.w,p.h)*0.08));
+   if(p.tapeW===1||p.tapeW===2){
+    var tapeY=p.y+tapeInset;
+    svg+='<line x1="'+(p.x+tapeInset)+'" y1="'+tapeY+'" x2="'+(p.x+p.w-tapeInset)+'" y2="'+tapeY+'" stroke="'+(el('colorPieces').checked?'#b45309':'#334155')+'" stroke-width="8" stroke-linecap="round"/>';
+    if(p.tapeW===2){var tapeY2=p.y+p.h-tapeInset;svg+='<line x1="'+(p.x+tapeInset)+'" y1="'+tapeY2+'" x2="'+(p.x+p.w-tapeInset)+'" y2="'+tapeY2+'" stroke="'+(el('colorPieces').checked?'#b45309':'#334155')+'" stroke-width="8" stroke-linecap="round"/>'}
+   }
+   if(p.tapeH===1||p.tapeH===2){
+    var tapeX=p.x+tapeInset;
+    svg+='<line x1="'+tapeX+'" y1="'+(p.y+tapeInset)+'" x2="'+tapeX+'" y2="'+(p.y+p.h-tapeInset)+'" stroke="'+(el('colorPieces').checked?'#b45309':'#334155')+'" stroke-width="8" stroke-linecap="round"/>';
+    if(p.tapeH===2){var tapeX2=p.x+p.w-tapeInset;svg+='<line x1="'+tapeX2+'" y1="'+(p.y+tapeInset)+'" x2="'+tapeX2+'" y2="'+(p.y+p.h-tapeInset)+'" stroke="'+(el('colorPieces').checked?'#b45309':'#334155')+'" stroke-width="8" stroke-linecap="round"/>'}
+   }
+   /* No desenho entram somente as dimensões. Se não couberem legivelmente, usa-se a referência da lista. */
+   var dimText=fmtMeasure(p.w)+' × '+fmtMeasure(p.h),fontMax=82,fontMin=num(el('fontMin').value)||40,pad=24;
+   var normalFont=Math.min(fontMax,(p.w-pad)/(dimText.length*.60),(p.h-pad)/1.35);
+   var rotatedFont=Math.min(fontMax,(p.h-pad)/(dimText.length*.60),(p.w-pad)/1.35);
+   var useRotated=rotatedFont>normalFont,maxFitFont=useRotated?rotatedFont:normalFont;
+   /* O valor escolhido passa a ser o tamanho desejado da fonte; só reduzimos
+      quando necessário para caber. Se nem o mínimo couber, mostramos a referência. */
+   var chosenFont=Math.min(fontMin,maxFitFont);
+   if(maxFitFont>=fontMin){
+    if(useRotated){svg+='<text x="'+(p.x+p.w/2)+'" y="'+(p.y+p.h/2)+'" transform="rotate(-90 '+(p.x+p.w/2)+' '+(p.y+p.h/2)+')" font-size="'+chosenFont+'" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="#0f172a">'+dimText+'</text>'}
+    else{svg+='<text x="'+(p.x+p.w/2)+'" y="'+(p.y+p.h/2)+'" font-size="'+chosenFont+'" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="#0f172a">'+dimText+'</text>'}
+   }else{var refFont=Math.min(92,Math.max(54,Math.min(p.w,p.h)*.42));svg+='<text x="'+(p.x+p.w/2)+'" y="'+(p.y+p.h/2)+'" font-size="'+refFont+'" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="#0f172a">'+p.dimRef+'</text>'}
+   if(p.grainAxis){var ax1=p.x+p.w/2,ay1=p.y+p.h/2,ax2=p.grainAxis==='w'?ax1+Math.min(p.w*.18,45):ax1,ay2=p.grainAxis==='h'?ay1+Math.min(p.h*.18,45):ay1;svg+='<line x1="'+ax1+'" y1="'+ay1+'" x2="'+ax2+'" y2="'+ay2+'" stroke="#166534" stroke-width="4"/><text x="'+(ax1+5)+'" y="'+(ay1+14)+'" font-size="28" fill="#166534">V</text>'}
+  }
+  /* Sobras: usa o mesmo padrão tipográfico das peças. Quando a medida não cabe,
+     mostra apenas a referência S# no desenho e detalha a dimensão na lista. */
+  var remnantRefs=[];
+  if(sh.free && sh.free.length){
+   for(var fi=0;fi<sh.free.length;fi++){
+    var fr=sh.free[fi];
+    if(fr.w<=0||fr.h<=0)continue;
+    var remRef='S'+(remnantRefs.length+1);
+    var remText=fmtMeasure(fr.w)+' s '+fmtMeasure(fr.h),remFontMax=82,remFontMin=num(el('fontMin').value)||40,remPad=24;
+    var remNormal=Math.min(remFontMax,(fr.w-remPad)/(remText.length*.60),(fr.h-remPad)/1.35);
+    var remRotated=Math.min(remFontMax,(fr.h-remPad)/(remText.length*.60),(fr.w-remPad)/1.35);
+    var remUseRotated=remRotated>remNormal,remFitFont=remUseRotated?remRotated:remNormal;
+    var remChosenFont=Math.min(remFontMin,remFitFont);
+    var remCx=fr.x+fr.w/2,remCy=fr.y+fr.h/2;
+    svg+='<g class="remnant-label">'+
+      '<rect x="'+fr.x+'" y="'+fr.y+'" width="'+fr.w+'" height="'+fr.h+'" fill="#fef3c7" fill-opacity="0.22" stroke="#b45309" stroke-width="3" stroke-dasharray="14 10"/>';
+    if(remFitFont>=remFontMin){
+     if(remUseRotated){svg+='<text x="'+remCx+'" y="'+remCy+'" transform="rotate(-90 '+remCx+' '+remCy+')" font-size="'+remChosenFont+'" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="#0f172a">'+remText+'</text>'}
+     else{svg+='<text x="'+remCx+'" y="'+remCy+'" font-size="'+remChosenFont+'" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="#0f172a">'+remText+'</text>'}
+    }else{
+     var remRefFont=Math.min(92,Math.max(54,Math.min(fr.w,fr.h)*.42));
+     svg+='<text x="'+remCx+'" y="'+remCy+'" font-size="'+remRefFont+'" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="#0f172a">'+remRef+'</text>';
+     remnantRefs.push({ref:remRef,w:fr.w,h:fr.h});
+    }
+    svg+='</g>';
+   }
+  }
+  /* Cotas da área útil ficam fora do contorno físico da chapa. */
+  var usableW=sw-2*c.margin,usableH=shh-2*c.margin,ux1=c.margin,ux2=sw-c.margin,uy1=c.margin,uy2=shh-c.margin,dimY=-58,dimX=-58;
+  var dimStroke='#111827',dimText='#111827',tick=16;
+  svg+='<g fill="none" stroke="'+dimStroke+'" stroke-width="4">'+
+   '<line x1="'+ux1+'" y1="'+uy1+'" x2="'+ux1+'" y2="'+dimY+'"/>'+
+   '<line x1="'+ux2+'" y1="'+uy1+'" x2="'+ux2+'" y2="'+dimY+'"/>'+
+   '<line x1="'+ux1+'" y1="'+dimY+'" x2="'+ux2+'" y2="'+dimY+'"/>'+
+   '<path d="M '+(ux1+tick)+' '+(dimY-tick/2)+' L '+ux1+' '+dimY+' L '+(ux1+tick)+' '+(dimY+tick/2)+'"/>'+
+   '<path d="M '+(ux2-tick)+' '+(dimY-tick/2)+' L '+ux2+' '+dimY+' L '+(ux2-tick)+' '+(dimY+tick/2)+'"/>'+
+   '<line x1="'+ux1+'" y1="'+uy1+'" x2="'+dimX+'" y2="'+uy1+'"/>'+
+   '<line x1="'+ux1+'" y1="'+uy2+'" x2="'+dimX+'" y2="'+uy2+'"/>'+
+   '<line x1="'+dimX+'" y1="'+uy1+'" x2="'+dimX+'" y2="'+uy2+'"/>'+
+   '<path d="M '+(dimX-tick/2)+' '+(uy1+tick)+' L '+dimX+' '+uy1+' L '+(dimX+tick/2)+' '+(uy1+tick)+'"/>'+
+   '<path d="M '+(dimX-tick/2)+' '+(uy2-tick)+' L '+dimX+' '+uy2+' L '+(dimX+tick/2)+' '+(uy2-tick)+'"/>'+
+   '</g>'+
+   '<g fill="'+dimText+'" font-size="56" font-weight="700">'+
+   '<text x="'+((ux1+ux2)/2)+'" y="'+(dimY-13)+'" text-anchor="middle">'+fmt(usableW)+' mm</text>'+
+   '<text x="'+(dimX-17)+'" y="'+((uy1+uy2)/2)+'" text-anchor="middle" transform="rotate(-90 '+(dimX-17)+' '+((uy1+uy2)/2)+')">'+fmt(usableH)+' mm</text>'+
+   '</g>';
+   /* Indicador do veio abaixo da chapa, com linha orientada conforme o sentido. */
+   if(sh.sheetGrain==='w'){
+    var grainY=shh+72,grainX1=sw/2-130,grainX2=sw/2+130;
+    svg+='<g stroke="#475569" stroke-width="8" fill="none" stroke-linecap="round"><line x1="'+grainX1+'" y1="'+grainY+'" x2="'+grainX2+'" y2="'+grainY+'"/><path d="M '+(grainX1+22)+' '+(grainY-16)+' L '+grainX1+' '+grainY+' L '+(grainX1+22)+' '+(grainY+16)+' M '+(grainX2-22)+' '+(grainY-16)+' L '+grainX2+' '+grainY+' L '+(grainX2-22)+' '+(grainY+16)+'"/></g>';
+    svg+='<text x="'+(sw/2)+'" y="'+(shh+150)+'" font-size="34" font-weight="700" text-anchor="middle" fill="#475569">VEIO HORIZONTAL</text>';
+   }else if(sh.sheetGrain==='h'){
+    var grainX=sw/2,grainY1=shh+24,grainY2=shh+124;
+    svg+='<g stroke="#475569" stroke-width="8" fill="none" stroke-linecap="round"><line x1="'+grainX+'" y1="'+grainY1+'" x2="'+grainX+'" y2="'+grainY2+'"/><path d="M '+(grainX-16)+' '+(grainY1+22)+' L '+grainX+' '+grainY1+' L '+(grainX+16)+' '+(grainY1+22)+' M '+(grainX-16)+' '+(grainY2-22)+' L '+grainX+' '+grainY2+' L '+(grainX+16)+' '+(grainY2-22)+'"/></g>';
+    svg+='<text x="'+(sw/2)+'" y="'+(shh+165)+'" font-size="34" font-weight="700" text-anchor="middle" fill="#475569">VEIO VERTICAL</text>';
+   }
+   svg+='</g></svg><p class="print-hint">As cotas externas indicam a área útil da chapa, já descontadas as margens. As sobras são identificadas por dimensões e área diretamente no desenho. Referências no desenho correspondem à lista de peças ao lado.</p></div>';
+  html+=svg;
+  html+='<div class="sheet-parts"><h4 style="font-size:'+partsFont+'pt !important">Peças deste plano — dimensões agrupadas</h4><div class="dimension-columns">';
+  var columnCount=4,columnsHtml=['','','',''];
+  /* Distribui referências únicas entre as quatro colunas; a quantidade fica na mesma linha. */
+  for(var gi=0;gi<groupOrder.length;gi++){
+   var g=groups[groupOrder[gi]],pieceColumn=gi%columnCount;
+   columnsHtml[pieceColumn]+='<tr class="piece-row"><td style="font-size:'+partsFont+'pt !important"><b>'+g.ref+'</b></td><td style="font-size:'+partsFont+'pt !important">'+fmtMeasure(g.w)+' × '+fmtMeasure(g.h)+(g.tapeW||g.tapeH?' <span style="color:#b45309;font-weight:700">'+(g.tapeW||0)+'f'+(g.tapeH||0)+'</span>':'')+'</td><td style="font-size:'+partsFont+'pt !important">'+g.count+'</td></tr>';
+  }
+  for(var ri=0;ri<remnantRefs.length;ri++){
+   var rr=remnantRefs[ri],remColumn=ri%columnCount;
+   columnsHtml[remColumn]+='<tr class="piece-row remnant-row"><td style="font-size:'+partsFont+'pt !important"><b>'+rr.ref+'</b></td><td style="font-size:'+partsFont+'pt !important">'+fmtMeasure(rr.w)+' s '+fmtMeasure(rr.h)+'</td><td style="font-size:'+partsFont+'pt !important">—</td></tr>';
+  }
+  for(var col=0;col<columnCount;col++){
+   html+='<table class="dimension-column"><thead><tr><th style="font-size:'+partsFont+'pt !important">Ref.</th><th style="font-size:'+partsFont+'pt !important">Medidas</th><th style="font-size:'+partsFont+'pt !important">Qtd.</th></tr></thead><tbody>'+columnsHtml[col]+'</tbody></table>';
+  }
+  html+='</div></div></div>';
+ }
+ if(packed.unplaced.length){var ug={};for(var ui=0;ui<packed.unplaced.length;ui++){var up=packed.unplaced[ui],uk=up.name+'|'+up.w+'|'+up.h+'|'+up.grainAxis;if(!ug[uk])ug[uk]={name:up.name,w:up.w,h:up.h,q:0,grainAxis:up.grainAxis};ug[uk].q++}html+='<div class="sheet unplaced-report"><h3>Relatório de peças não posicionadas</h3><p>Estas peças não couberam no estoque de chapas cadastrado e não foram incluídas nos planos.</p><table><thead><tr><th>Descrição</th><th>Dimensões (mm)</th><th>Qtd. não posicionada</th><th>Motivo</th></tr></thead><tbody>';Object.keys(ug).forEach(function(k){var u=ug[k],reason='Não houve espaço disponível nas chapas cadastradas';if(!pieceFitsSomeOrientation(u,c,c.inventory.reduce(function(mx,x){return Math.max(mx,x.sw-2*c.margin)},0),c.inventory.reduce(function(mx,x){return Math.max(mx,x.sh-2*c.margin)},0)))reason='Dimensão ou orientação incompatível com as chapas disponíveis';html+='<tr><td>'+escapeHtml(u.name)+'</td><td>'+fmt(u.w)+' × '+fmt(u.h)+'</td><td>'+u.q+'</td><td>'+reason+'</td></tr>'});html+='</tbody></table></div>'}
+ html+='<p class="note">Aproveitamento = área das peças posicionadas ÷ área total das chapas utilizadas. Cada plano possui sua própria lista completa de peças. As descrições aparecem somente na lista; no desenho são usadas referências. Quando as dimensões não cabem na horizontal nem na vertical em tamanho legível, o desenho mostra somente a referência; as medidas completas ficam na lista de cada plano. A impressão está organizada em A4 retrato, com desenho na parte superior e lista em quatro colunas compactas, ajustadas para caber em uma folha A4 por chapa. O cálculo reserva a espessura do disco também após a última peça de cada fileira e coluna, para permitir a limpeza da borda final. O resultado é heurístico; confira cortes, sobras e restrições da máquina antes da produção.</p>';
+ result.innerHTML=html;
+}
+el('optimize').onclick=function(){try{
+ loadQuick();
+ if(el('quickStatus').className.indexOf('error')!==-1)throw Error(el('quickStatus').textContent);
+ var c=read(),validation={warnings:[],bad:[],badPieces:[]};
+ /* Cada estratégia é executada com preferência por orientação original e girada.
+    Em peças sem veio obrigatório, a comparação final escolhe a melhor sobra do plano completo. */
+ var strategies=[
+  function(a,b){return a.w*a.h-b.w*b.h||Math.max(a.w,a.h)-Math.max(b.w,b.h)||Math.min(a.w,a.h)-Math.min(b.w,b.h)},
+  function(a,b){return Math.min(a.w,a.h)-Math.min(b.w,b.h)||Math.max(a.w,a.h)-Math.max(b.w,b.h)},
+  function(a,b){return a.w-b.w||a.h-b.h},
+  function(a,b){return a.h-b.h||a.w-b.w}
+ ];
+ var best=null,bestScore=Infinity;
+ for(var i=0;i<strategies.length;i++){
+  for(var rb=0;rb<2;rb++){
+   var packed=pack(c,strategies[i],rb);
+   var placedCount=0,placedArea=0,freeConcentration=0,freeCount=0,largestRemnantArea=0;
+   for(var si=0;si<packed.sheets.length;si++){
+    placedCount+=packed.sheets[si].placed.length;
+    for(var pi=0;pi<packed.sheets[si].placed.length;pi++){
+     var pp=packed.sheets[si].placed[pi];placedArea+=pp.w*pp.h;
+    }
+    for(var j=0;j<packed.sheets[si].free.length;j++){
+     var freeArea=packed.sheets[si].free[j].w*packed.sheets[si].free[j].h;
+     freeConcentration+=freeArea*freeArea;
+     if(freeArea>largestRemnantArea)largestRemnantArea=freeArea;
+     freeCount++;
+    }
+   }
+   /* Primeiro preserva todas as peças e minimiza chapas.
+      Depois favorece a maior sobra retangular contínua; em empate,
+      concentra a área restante em menos retângulos. */
+   /* A orientação é avaliada pelo plano completo, não só pelo primeiro bloco.
+      Quando não há veio definido, os dois sentidos são executados (rotationBias 0/1).
+      Depois de garantir peças e chapas, a maior sobra contínua passa a ser o
+      critério dominante; a concentração geral desempata layouts semelhantes. */
+   var score=packed.unplaced.length*1e15+
+             packed.sheets.length*1e12-
+             placedCount*1e9-
+             placedArea*1e-3-
+             largestRemnantArea*100-
+             freeConcentration*1e-6+
+             freeCount*1e3;
+   if(score<bestScore){bestScore=score;best=packed}
+  }
+ }
+ render(c,best,validation)}catch(e){result.innerHTML='<h2>3. Resultado da otimização</h2><p class="error">'+escapeHtml(e.message)+'</p>'}};
+// O cadastro rápido é a entrada principal; o estoque de chapas é finito.
+})();
+</script>
+</body>
+</html>
